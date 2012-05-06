@@ -11,7 +11,7 @@ import java.util.List;
 public class WarBot {
     private final WebClient webClient;
     private HtmlPage page;
-    public Resources resources = new Resources();
+    public Resources resources = new Resources(this);
     public ArrayList<String> activeSpells = new ArrayList<String>();
     public boolean loggedIn = false;
     
@@ -34,9 +34,6 @@ public class WarBot {
         page.setFocusedElement(pass);
         HtmlSubmitInput submit = form.getInputByValue("    Submit    ");
 
-        List<HtmlElement> list = form.getElementsByTagName("button");
-        System.out.println();
-
         user.setValueAttribute(Config.getUserId());
         pass.setValueAttribute(Config.getPassword());
 
@@ -47,7 +44,6 @@ public class WarBot {
         }
         loggedIn = true;
         System.out.println("Logged In!");
-
     }
 
     public void quit(){
@@ -59,51 +55,9 @@ public class WarBot {
             System.out.println("Going to Throne Room");
             HtmlAnchor anchor = page.getAnchorByText("Throne Room");
             page = anchor.click();
-            refreshResources();
+            resources.refreshResources();
         }catch(Exception e){
             errorLogout();
-        }
-    }
-    
-    private void refreshResources() throws Exception {
-        List<HtmlElement> list = page.getElementsByTagName("td");
-        for (HtmlElement e:list){
-            if(e.getTextContent().contains("Ore:")){
-                String content = e.getTextContent();
-                content = content.replace("Ore:", "");
-                content = content.trim();
-                resources.ore = Integer.parseInt(content);
-
-                System.out.println("Found Ore: " + resources.ore);
-            }
-            if(e.getTextContent().contains("Wood:")){
-                String content = e.getTextContent();
-                content = content.replace("Wood:", "");
-                content = content.trim();
-                resources.wood = Integer.parseInt(content);
-
-                System.out.println("Found Wood: " + resources.wood);
-            }
-            if(e.getTextContent().contains("Stone:")){
-                String content = e.getTextContent();
-                content = content.replace("Stone:", "");
-                content = content.trim();
-                resources.stone = Integer.parseInt(content);
-
-                System.out.println("Found Stone: " + resources.stone);
-            }
-        }
-        list = page.getElementsByTagName("th");
-        for(HtmlElement e:list){
-            if(e.getTextContent().contains("Castle")){
-                String content = e.getTextContent();
-                content = content.replace("Castle:", "");
-                content = content.trim();
-                resources.level = Integer.parseInt(content);
-
-                System.out.println("Castle Level: " + resources.level);
-                break;
-            }
         }
     }
 
@@ -111,7 +65,7 @@ public class WarBot {
         try{
             System.out.println("Going to Forge");
             page = webClient.getPage(Config.getBaseUrl() + "/forge/");
-            refreshResources();
+            resources.refreshResources();
         }catch(Exception e){
             errorLogout();
         }
@@ -121,7 +75,7 @@ public class WarBot {
         try{
             System.out.println("Going to Tower");
             page = webClient.getPage(Config.getBaseUrl() + "/tower/");
-            refreshResources();
+            resources.refreshResources();
         }catch(Exception e){
             errorLogout();
         }
@@ -131,7 +85,7 @@ public class WarBot {
         try{
             System.out.println("Going to Castle");
             page = webClient.getPage(Config.getBaseUrl() + "/castle/");
-            refreshResources();
+            resources.refreshResources();
         }catch(Exception e){
             errorLogout();
         }
@@ -268,9 +222,17 @@ public class WarBot {
                 }
             }
 
-            for(String spell:activeSpells){
-                System.out.println("Active Spell: " + spell);
+            if(activeSpells.size() > 0){
+                System.out.print("   Active Spell(s): ");
+                for(int i = 0;i < activeSpells.size();i++){
+                    if(i != 0) System.out.print(", ");
+
+                    System.out.print(activeSpells.get(i));
+
+                    if(i + 1 == activeSpells.size()) System.out.println();
+                }
             }
+
         }catch (Exception e){
             errorLogout();
         }
@@ -286,6 +248,10 @@ public class WarBot {
     private void errorLogout(){
         System.out.println("Error encountered: setting loggedIn to false for retry.");
         loggedIn = false;
+    }
+
+    public HtmlPage getPage(){
+        return this.page;
     }
 
 

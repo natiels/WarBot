@@ -22,25 +22,14 @@ public class Main {
                     warBot.login();
                 }
 
-                //Properties configFile = new Properties();
-                //configFile.load(getClass().getClassLoader().getResourceAsStream("etc/example.properties"));
-
-                //System.out.println(configFile.getProperty("user"));
-
                 warBot.getActiveSpells();
-                
-                //warBot.buyLongBow();
 
                 //cast spells
-                //if(!warBot.isSpellActive("Snow")) warBot.buySpellSnow();
+                if(!warBot.isSpellActive("Snow")) warBot.buySpellSnow();
                 //if(!warBot.isSpellActive("Forest Call")) warBot.buySpellForestCall();
                 //if(!warBot.isSpellActive("Iron Pride")) warBot.buySpellIronPride();
-                //if(!warBot.isSpellActive("Open Earth")) warBot.buySpellOpenEarth();
-
-
-                //mana loop
+                if(!warBot.isSpellActive("Open Earth")) warBot.buySpellOpenEarth();
                 //if(!warBot.isSpellActive("Mana")) warBot.buySpellMana();
-
                 //if(!warBot.isSpellActive("Mist")) warBot.buySpellMist();
 
                 //warBot.buyLongBow();
@@ -48,8 +37,8 @@ public class Main {
                 //warBot.buyBow();
                 //if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
 
-                //if(warBot.resources.stone >= com.warbot.Costs.getCastleUpgradeCost(warBot.resources.level)) warBot.upgradeCastle();
-                //if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
+                if(warBot.resources.stone >= Costs.getCastleUpgradeCost(warBot.resources.level)) warBot.upgradeCastle();
+                if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
 
                 //warBot.repairCastle();
 
