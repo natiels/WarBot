@@ -12,6 +12,7 @@ public class WarBot {
     private final WebClient webClient;
     private HtmlPage page;
     public Resources resources = new Resources(this);
+    public Barracks barracks = new Barracks(this);
     public ArrayList<String> activeSpells = new ArrayList<String>();
     public boolean loggedIn = false;
     
@@ -245,7 +246,7 @@ public class WarBot {
         return false;
     }
     
-    private void errorLogout(){
+    public void errorLogout(){
         System.out.println("Error encountered: setting loggedIn to false for retry.");
         loggedIn = false;
     }

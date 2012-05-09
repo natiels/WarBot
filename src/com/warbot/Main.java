@@ -25,20 +25,30 @@ public class Main {
                 warBot.getActiveSpells();
 
                 //cast spells
-                if(!warBot.isSpellActive("Snow")) warBot.buySpellSnow();
-                //if(!warBot.isSpellActive("Forest Call")) warBot.buySpellForestCall();
-                //if(!warBot.isSpellActive("Iron Pride")) warBot.buySpellIronPride();
-                if(!warBot.isSpellActive("Open Earth")) warBot.buySpellOpenEarth();
-                //if(!warBot.isSpellActive("Mana")) warBot.buySpellMana();
                 //if(!warBot.isSpellActive("Mist")) warBot.buySpellMist();
+                //if(!warBot.isSpellActive("Snow")) warBot.buySpellSnow();
+                if(!warBot.isSpellActive("Forest Call")) warBot.buySpellForestCall();
+                if(!warBot.isSpellActive("Iron Pride")) warBot.buySpellIronPride();
+                //if(!warBot.isSpellActive("Open Earth")) warBot.buySpellOpenEarth();
+                //if(!warBot.isSpellActive("Mana")) warBot.buySpellMana();
 
-                //warBot.buyLongBow();
+
+                warBot.buyLongBow();
+
+                //If we have more farmers allocated then needed we must reallocate.
+                if(warBot.barracks.getCurrentFarmers() > warBot.barracks.getRequiredFarmers()){
+                    Allocation allocation = warBot.barracks.getLongBowBuilderNoMana(5);
+                    warBot.barracks.setAllocation(allocation);
+                }
+
+
                 //warBot.buyLongSword();
                 //warBot.buyBow();
                 //if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
 
+
                 if(warBot.resources.stone >= Costs.getCastleUpgradeCost(warBot.resources.level)) warBot.upgradeCastle();
-                if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
+                //if(com.warbot.Costs.canAffordHouse(warBot.resources)) warBot.buyHouse();
 
                 //warBot.repairCastle();
 
